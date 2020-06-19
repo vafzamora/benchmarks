@@ -16,11 +16,12 @@ namespace cpfBenchmark
 
             ReadOnlySpan<char> cpfSpan = cpf.AsSpan();
             var digito = cpfSpan[^2..];
-            if (!(char.IsDigit(digito[0]) && char.IsDigit(digito[1])))
+            var numero = cpfSpan[0..^2];
+
+            if (!(char.IsDigit(digito[0]) && char.IsDigit(digito[1]) && char.IsDigit(numero[0])))
             {
                 return false;
             }
-            var numero = cpfSpan[0..^2];
             int multiplicador = 11;
             for (int i = 0; i < numero.Length; i++)
             {

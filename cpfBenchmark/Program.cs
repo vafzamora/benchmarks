@@ -7,13 +7,13 @@ namespace cpfBenchmark
     {
         static void Main(string[] args)
         {
-            BenchmarkRunner.Run<Benchmarks>();
+            //BenchmarkRunner.Run<Benchmarks>();
 
-            //string testCpf = "532.817.478-09";
-            //for (int i = 0; i < 5000; i++)
-            //{
-            //Final.IsCpf(testCpf);
-            //}
+            string testCpf = "532.817.478-09";
+            for (int i = 0; i < 5000; i++)
+            {
+                Baseline.IsCpf(testCpf);
+            }
         }
     }
 }
