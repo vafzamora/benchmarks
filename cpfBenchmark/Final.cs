@@ -6,7 +6,14 @@ namespace cpfBenchmark
     
     static class Final
     {
-        static Func<char,int> ToValue = (char c) => c & 15;
+        static int ToValue(char c){
+             return c & 0b1111;
+        }
+
+        static bool IsDigit(char c){
+            return c>='0' && c<='9'; 
+        }
+
         internal static bool IsCpf(string cpf)
         {
 
@@ -18,14 +25,14 @@ namespace cpfBenchmark
             var digito = cpfSpan[^2..];
             var numero = cpfSpan[0..^2];
 
-            if (!(char.IsDigit(digito[0]) && char.IsDigit(digito[1]) && char.IsDigit(numero[0])))
+            if (!(IsDigit(digito[0]) && IsDigit(digito[1]) && IsDigit(numero[0])))
             {
                 return false;
             }
             int multiplicador = 11;
             for (int i = 0; i < numero.Length; i++)
             {
-                if (char.IsDigit(numero[i]))
+                if (IsDigit(numero[i]))
                 {
                     todosIguais = todosIguais && numero[i] == numero[0];
                     valor = ToValue(numero[i]);
