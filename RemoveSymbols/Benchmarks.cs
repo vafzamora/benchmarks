@@ -7,6 +7,9 @@ using BenchmarkDotNet.Jobs;
 namespace RemoveSymbols
 {
     [MemoryDiagnoser]
+    [SimpleJob(RuntimeMoniker.Net462,baseline:true)]
+    [SimpleJob(RuntimeMoniker.NetCoreApp50)]
+    [SimpleJob(RuntimeMoniker.NetCoreApp31)]
     public class Benchmarks
     {
         public string input = "91.247.498/0001-47";
@@ -37,19 +40,22 @@ namespace RemoveSymbols
             var x = new string(input.Where(c => c >= '0' && c <= '9').ToArray());
         }
         
+         
         [Benchmark]
         public void WithSpanChar()
         {
-            Span<char> outArray = stackalloc char[input.Length];
+            ReadOnlySpan<char> inputSpan = input.AsSpan(); 
+            Span<char> outArray = stackalloc char[inputSpan.Length];
             int j = 0;
-            for (int i = 0; i < input.Length; i++)
+            for (int i = 0; i < inputSpan.Length; i++)
             {
-                if (input[i]>='0' && input[i]<='9')
+                if (inputSpan[i]>='0' && inputSpan[i]<='9')
                 {
-                    outArray[j++] = input[i];
+                    outArray[j++] = inputSpan[i];
                 }
             }
             string x = j > 0 ? outArray.Slice(0,j).ToString() : string.Empty; 
         }
+
     }
 }
